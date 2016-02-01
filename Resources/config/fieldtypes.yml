@@ -1,0 +1,26 @@
+parameters:
+# xrowgis
+    xrow_gis_types.xrowgis.class: xrow\XrowGisBundle\FieldType\XrowGis\Type
+    xrow_gis_types.xrowgis.converter.class: xrow\XrowGisBundle\FieldType\XrowGis\XrowGisConverter
+    xrow_gis_types.xrowgis.externalStorage.class: xrow\XrowGisBundle\FieldType\XrowGis\XrowGisStorage
+    xrow_gis_types.xrowgis.storage_gateway.class: xrow\XrowGisBundle\FieldType\XrowGis\XrowGisStorage\Gateway\LegacyStorage
+
+services:
+# xrowgis
+    xrow_gis_types.xrowgis:
+        class: %xrow_gis_types.xrowgis.class%
+        parent: ezpublish.fieldType
+        tags:
+            - {name: ezpublish.fieldType, alias: xrowgis}
+    xrow_gis_types.xrowgis.converter:
+        class: %xrow_gis_types.xrowgis.converter.class%
+        tags:
+            - {name: ezpublish.storageEngine.legacy.converter, alias: xrowgis}
+    xrow_gis_types.xrowgis.externalStorage:
+        class: %xrow_gis_types.xrowgis.externalStorage.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler, alias: xrowgis}
+    xrow_gis_types.xrowgis.storage_gateway:
+        class: %xrow_gis_types.xrowgis.storage_gateway.class%
+        tags:
+            - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: xrowgis, identifier: LegacyStorage}
