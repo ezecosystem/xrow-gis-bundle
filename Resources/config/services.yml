@@ -1,0 +1,7 @@
+parameters:
+    xrow.fieldType.xrowgis.class: xrow\XrowGisBundle\FieldType\XrowGis\SearchField
+services:
+    xrow.fieldType.xrowgis:
+        class: %xrow.fieldType.xrowgis.class%
+        tags:
+            - {name: ezpublish.fieldType.indexable, alias: xrowgis}

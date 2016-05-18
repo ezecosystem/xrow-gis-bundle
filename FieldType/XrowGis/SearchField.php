@@ -6,6 +6,7 @@
 namespace xrow\XrowGisBundle\FieldType\XrowGis;
 
 use eZ\Publish\SPI\Persistence\Content\Field;
+use eZ\Publish\SPI\Persistence\Content\Type\FieldDefinition;
 use eZ\Publish\SPI\FieldType\Indexable;
 use eZ\Publish\SPI\Search;
 
@@ -21,19 +22,32 @@ class SearchField implements Indexable
      *
      * @return \eZ\Publish\SPI\Search\Field[]
      */
-    public function getIndexData( Field $field )
+    public function getIndexData( Field $field, FieldDefinition $fieldDefinition )
     {
+        $fields = array();
+        if ($field->value->externalData["street"]) {
+            array_push($fields, $field->value->externalData["street"]);
+        }
+        if ($field->value->externalData["zip"]) {
+            array_push($fields, $field->value->externalData["zip"]);
+        }
+        if ($field->value->externalData["district"]) {
+            array_push($fields, $field->value->externalData["district"]);
+        }
+        if ($field->value->externalData["city"]) {
+            array_push($fields, $field->value->externalData["city"]);
+        }
+        if ($field->value->externalData["state"]) {
+            array_push($fields, $field->value->externalData["state"]);
+        }
+        if ($field->value->externalData["country"]) {
+            array_push($fields, $field->value->externalData["country"]);
+        }
+        $fields = implode(", ", $fields);
         return array(
             new Search\Field(
                 'value_address',
-                array(
-                   "street" => $field->value->externalData["street"],
-                   "zip" => $field->value->externalData["zip"],
-                   "district" => $field->value->externalData["district"],
-                   "city" => $field->value->externalData["city"],
-                   "state" => $field->value->externalData["state"],
-                   "country" => $field->value->externalData["country"]
-                ),
+                $fields,
                 new Search\FieldType\StringField()
             ),
             new Search\Field(
@@ -74,4 +88,20 @@ class SearchField implements Indexable
     {
         return "value_address";
     }
+	/* (non-PHPdoc)
+     * @see \eZ\Publish\SPI\FieldType\Indexable::getDefaultMatchField()
+     */
+    public function getDefaultMatchField()
+    {
+        return "value_address";
+    }
+
+	/* (non-PHPdoc)
+     * @see \eZ\Publish\SPI\FieldType\Indexable::getDefaultSortField()
+     */
+    public function getDefaultSortField()
+    {
+        return "value_address";
+    }
+
 }
