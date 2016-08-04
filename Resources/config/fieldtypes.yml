@@ -5,6 +5,10 @@ parameters:
     xrow_gis_types.xrowgis.externalStorage.class: xrow\XrowGisBundle\FieldType\XrowGis\XrowGisStorage
     xrow_gis_types.xrowgis.storage_gateway.class: xrow\XrowGisBundle\FieldType\XrowGis\XrowGisStorage\Gateway\LegacyStorage
 
+# xrowgpx
+    xrow_gis_types.xrowgpx.class: xrow\XrowGisBundle\FieldType\XrowGpx\Type
+    xrow_gis_types.xrowgpx.converter.class: xrow\XrowGisBundle\FieldType\XrowGpx\XrowGpxConverter
+
 services:
 # xrowgis
     xrow_gis_types.xrowgis:
@@ -24,3 +28,14 @@ services:
         class: %xrow_gis_types.xrowgis.storage_gateway.class%
         tags:
             - {name: ezpublish.fieldType.externalStorageHandler.gateway, alias: xrowgis, identifier: LegacyStorage}
+
+# xrowgpx
+    xrow_gis_types.xrowgpx:
+        class: %xrow_gis_types.xrowgpx.class%
+        parent: ezpublish.fieldType
+        tags:
+            - {name: ezpublish.fieldType, alias: xrowgpx}
+    xrow_gis_types.xrowgpx.converter:
+        class: %xrow_gis_types.xrowgpx.converter.class%
+        tags:
+            - {name: ezpublish.storageEngine.legacy.converter, alias: xrowgpx}
